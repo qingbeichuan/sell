@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--头部组件-->
-    <sellHeader></sellHeader>
+    <sellHeader :seller="seller"></sellHeader>
     <!--选项卡-->
     <div class="tab border-1px">
       <div class="tab-item">
@@ -20,10 +20,24 @@
 
 <script>
   import sellHeader from '@/components/header/header'
+  const ERR_OK=0
   export default {
     name: 'App',
     components:{
       sellHeader
+    },
+    data(){
+      return {
+        seller:{}
+      }
+    },
+    created(){
+      this.$axios.get('/api/seller').then(res=>{
+        if(res.data.errno==ERR_OK){
+          this.seller=res.data.data
+          console.log(this.seller)
+        }
+      })
     }
   }
 </script>
